@@ -15,7 +15,10 @@ from utils.plots import plot_one_box
 from utils.torch_utils import select_device, load_classifier, time_synchronized
 
 save_csv = True
-csv_f = open("results.csv","w")
+i = 21
+while(os.path.exists("results"+str(i)+".csv")):
+    i+=1
+csv_f = open("results"+str(i)+".csv","w")
 
 def detect(save_img=False):
     source, weights, view_img, save_txt, imgsz = opt.source, opt.weights, opt.view_img, opt.save_txt, opt.img_size
