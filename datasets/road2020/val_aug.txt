@@ -1,1 +1,1 @@
-datasets/road2020/Image-Augmentation-Yolo/train/Czech/images/Emboss_Czech_002026.jpg
+datasets/road2020/train/Czech/images/Emboss_Czech_002026.jpg
