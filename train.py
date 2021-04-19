@@ -390,6 +390,12 @@ def train(hyp, opt, device, tb_writer=None, wandb=None):
                         'wandb_id': wandb_run.id if wandb else None}
 
                 # Save last, best and delete
+                # if (epoch%5==0)and(epoch!=0):
+                #     mid_s= 'mid%g.pt'%epoch
+                #     mid_ckpt = wdir / mid_s
+                #     torch.save(ckpt, mid_ckpt)
+                #     if mid_ckpt.exists():
+                #       strip_optimizer(mid_ckpt) 
                 torch.save(ckpt, last)
                 if best_fitness == fi:
                     torch.save(ckpt, best)
