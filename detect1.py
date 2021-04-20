@@ -15,12 +15,22 @@ from utils.plots import plot_one_box
 from utils.torch_utils import select_device, load_classifier, time_synchronized
 
 save_csv = True
-i = 21
-while(os.path.exists("results"+str(i)+".csv")):
-    i+=1
-csv_f = open("results"+str(i)+".csv","w")
+#i = 21
+#while(os.path.exists("results"+str(i)+".csv")):
+#    i+=1
+#csv_f = open("results"+str(i)+".csv","w")
 
 def detect(save_img=False):
+    
+    i = 21
+
+    while(os.path.exists("results"+str(i)+".csv")):
+        i+=1
+    if opt.rddc_rs == 'result.txt':
+        csv_f = open("results"+str(i)+".csv","w")
+    else:
+        csv_f = open(opt.rddc_rs+"_%g_%g.csv"%(opt.conf_thres, opt.iou_thres),"w")
+    
     source, weights, view_img, save_txt, imgsz = opt.source, opt.weights, opt.view_img, opt.save_txt, opt.img_size
     webcam = source.isnumeric() or source.endswith('.txt') or source.lower().startswith(
         ('rtsp://', 'rtmp://', 'http://'))
@@ -151,6 +161,7 @@ def detect(save_img=False):
         print(f"Results saved to {save_dir}{s}")
 
     print(f'Done. ({time.time() - t0:.3f}s)')
+    csv_f.close()
 
 
 if __name__ == '__main__':
@@ -182,4 +193,4 @@ if __name__ == '__main__':
                 strip_optimizer(opt.weights)
         else:
             detect()
-    csv_f.close()
+    
