@@ -16,6 +16,7 @@ import torch.optim as optim
 import torch.optim.lr_scheduler as lr_scheduler
 import torch.utils.data
 import yaml
+import shutil, os
 from torch.cuda import amp
 from torch.nn.parallel import DistributedDataParallel as DDP
 from torch.utils.tensorboard import SummaryWriter
@@ -392,9 +393,14 @@ def train(hyp, opt, device, tb_writer=None, wandb=None):
                 # Save last, best and delete
                 # if (epoch%5==0)and(epoch!=0):
                 #     mid_s= 'mid%g.pt'%epoch
+                #     mid_b= 'best%g.pt'%epoch
                 #     mid_ckpt = wdir / mid_s
+                #     mid_best_ckpt = wdir/mid_b
                 #     torch.save(ckpt, mid_ckpt)
                 #     if mid_ckpt.exists():
+                #       strip_optimizer(mid_ckpt) 
+                #     shutil.copy(best, mid_best_ckpt)
+                #     if mid_best_ckpt.exists():
                 #       strip_optimizer(mid_ckpt) 
                 torch.save(ckpt, last)
                 if best_fitness == fi:
