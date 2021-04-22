@@ -391,17 +391,17 @@ def train(hyp, opt, device, tb_writer=None, wandb=None):
                         'wandb_id': wandb_run.id if wandb else None}
 
                 # Save last, best and delete
-                # if (epoch%5==0)and(epoch!=0):
-                #     mid_s= 'mid%g.pt'%epoch
-                #     mid_b= 'best%g.pt'%epoch
-                #     mid_ckpt = wdir / mid_s
-                #     mid_best_ckpt = wdir/mid_b
-                #     torch.save(ckpt, mid_ckpt)
-                #     if mid_ckpt.exists():
-                #       strip_optimizer(mid_ckpt) 
-                #     shutil.copy(best, mid_best_ckpt)
-                #     if mid_best_ckpt.exists():
-                #       strip_optimizer(mid_ckpt) 
+                if (epoch%5==0)and(epoch!=0)and(opt.save_mid):
+                    mid_s= 'mid%g.pt'%epoch
+                    mid_b= 'best%g.pt'%epoch
+                    mid_ckpt = wdir / mid_s
+                    mid_best_ckpt = wdir/mid_b
+                    torch.save(ckpt, mid_ckpt)
+                    if mid_ckpt.exists():
+                      strip_optimizer(mid_ckpt) 
+                    shutil.copy(best, mid_best_ckpt)
+                    if mid_best_ckpt.exists():
+                      strip_optimizer(mid_ckpt) 
                 torch.save(ckpt, last)
                 if best_fitness == fi:
                     torch.save(ckpt, best)
@@ -456,6 +456,7 @@ def train(hyp, opt, device, tb_writer=None, wandb=None):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--weights', type=str, default='yolov5s.pt', help='initial weights path')
+    parser.add_argument('--save_mid', action='store_true', help='save_mid.pt')
     parser.add_argument('--cfg', type=str, default='', help='model.yaml path')
     parser.add_argument('--data', type=str, default='data/coco128.yaml', help='data.yaml path')
     parser.add_argument('--hyp', type=str, default='data/hyp.scratch.yaml', help='hyperparameters path')
